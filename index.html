@@ -1,0 +1,688 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TECH CHALLENGE | Miron Amgad</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+:root{
+--bg:#180e20;--panel:#28182f;--card:#382442;
+--pink:#ff78c4;--purple:#b38af5;--muted:#c5aec9;
+--white:#fff5fc;--green:#48dda1;--red:#ff708b;
+}
+*{box-sizing:border-box}
+body{
+margin:0;background:radial-gradient(ellipse at top,#482447,transparent 55%),var(--bg);
+color:var(--white);font-family:Cairo,sans-serif;min-height:100vh
+}
+header{
+display:flex;justify-content:space-between;align-items:center;
+padding:15px 6%;background:#211329;border-bottom:1px solid #593451;
+gap:10px;flex-wrap:wrap
+}
+.logo{font-size:23px;font-weight:900;color:var(--pink)}
+.logo span{color:white}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+button{font-family:inherit;cursor:pointer}
+.navbtn{
+background:#392541;border:1px solid #694361;color:white;
+padding:8px 13px;border-radius:9px;font-size:12px
+}
+.navbtn:hover{border-color:var(--pink)}
+.container{max-width:1050px;margin:auto;padding:25px 20px}
+.hidden{display:none!important}
+.hero{text-align:center;padding:35px 10px}
+.hero small{color:var(--pink);letter-spacing:3px;font-weight:bold}
+.hero h1{font-size:clamp(30px,6vw,52px);margin:10px 0}
+.hero h1 span{color:var(--pink)}
+.hero p{color:var(--muted)}
+.line{height:4px;width:85px;border-radius:10px;background:linear-gradient(90deg,var(--pink),var(--purple));margin:15px auto}
+.title{font-size:21px;margin:25px 0 15px}
+.categories{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.category{
+background:linear-gradient(145deg,#382442,#25172d);
+border:1px solid #64405e;border-radius:16px;padding:22px;
+color:white;text-align:right;transition:.2s
+}
+.category:hover{transform:translateY(-4px);border-color:var(--pink)}
+.emoji{font-size:35px}
+.category h3{margin:8px 0 2px}
+.category p{font-size:12px;color:var(--muted);margin:0}
+.panel{
+background:var(--panel);border:1px solid #593451;
+border-radius:16px;padding:20px;margin-top:20px
+}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+label{font-size:13px;color:#f2cce5}
+input,select,textarea{
+background:#392643;color:white;border:1px solid #694361;
+border-radius:9px;padding:12px;font-family:inherit;width:100%;
+}
+input::placeholder,textarea::placeholder{color:#bba6c1}
+.primary{
+background:linear-gradient(100deg,#e84c9e,#a66ce7);
+border:0;color:white;padding:12px 22px;border-radius:10px;
+font-weight:bold
+}
+.secondary{
+background:#392643;border:1px solid #694361;color:white;
+padding:10px 18px;border-radius:9px
+}
+.primary:hover,.secondary:hover{filter:brightness(1.12)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.note{font-size:12px;color:var(--muted);line-height:1.9}
+.stat{
+background:#392643;border:1px solid #694361;padding:10px 14px;
+border-radius:10px;color:var(--pink);font-weight:bold
+}
+.quiztop{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.progress{height:8px;background:#49304e;border-radius:20px;margin:20px 0;overflow:hidden}
+#progressBar{height:100%;background:linear-gradient(90deg,var(--pink),var(--purple));width:0;transition:.3s}
+.question{font-size:23px;line-height:1.9;margin:15px 0}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.option{
+background:#392643;border:1px solid #694361;color:white;
+padding:14px;border-radius:10px;text-align:right;overflow-wrap:anywhere
+}
+.option:hover:not(:disabled){border-color:var(--pink)}
+.option.correct{background:#104b3b;border-color:var(--green)}
+.option.wrong{background:#532632;border-color:var(--red)}
+.option:disabled{cursor:default}
+#feedback{display:none;background:#392643;padding:14px;border-radius:10px;margin-top:18px;line-height:2}
+.result{text-align:center;padding:30px 15px}
+.result .trophy{font-size:65px}
+.result h2{color:var(--pink)}
+.result-score{font-size:50px;color:var(--pink);font-weight:900}
+table{width:100%;border-collapse:collapse;min-width:520px;text-align:center}
+th,td{padding:12px 8px;border-bottom:1px solid #533750}
+th{color:var(--pink)}
+.tablewrap{overflow-x:auto}
+.medal{font-size:20px}
+.admin-card{background:#392643;padding:15px;border-radius:12px;margin:10px 0;border:1px solid #65415e}
+.admin-card button{margin:4px}
+footer{
+text-align:center;border-top:1px solid #593451;padding:24px 10px;
+margin-top:35px;color:var(--muted);font-size:13px
+}
+.creator{color:var(--pink);font-weight:900;font-size:17px;direction:ltr}
+@media(max-width:600px){
+.categories,.options,.grid2{grid-template-columns:1fr}
+.hero{padding:20px 0}
+.question{font-size:19px}
+header{padding:13px 4%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">TECH <span>CHALLENGE</span></div>
+  <nav>
+    <button class="navbtn" onclick="goHome()">الرئيسية</button>
+    <button class="navbtn" onclick="showAbout()">عن المشروع</button>
+    <button class="navbtn" onclick="showAdmin()">لوحة الإدارة ⚙️</button>
+  </nav>
+</header>
+
+<main class="container">
+
+<!-- STUDENT HOME -->
+<section id="home">
+  <div class="hero">
+    <small>LEARN • COMPETE • ACHIEVE</small>
+    <h1>مستعد تختبر <span>قدراتك؟</span></h1>
+    <div class="line"></div>
+    <p>منصة تعليمية تفاعلية لطلاب تكنولوجيا المعلومات</p>
+  </div>
+
+  <div class="panel">
+    <h3 style="color:var(--pink);margin-top:0">🎓 بوابة الطالب | Student Portal</h3>
+    <div class="grid2">
+      <div class="field">
+        <label>اسم الطالب</label>
+        <input id="playerName" maxlength="35" placeholder="اكتب اسمك بالكامل">
+      </div>
+      <div class="field">
+        <label>الرقم الجامعي | Student ID</label>
+        <input id="studentID" maxlength="20" placeholder="اكتب الرقم الجامعي">
+      </div>
+    </div>
+    <p class="note">أدخل بياناتك قبل بدء التحدي حتى تظهر نتيجتك في لوحة الشرف.</p>
+  </div>
+
+  <h2 class="title">💗 اختار القسم</h2>
+  <div class="categories">
+    <button class="category" onclick="chooseCategory('programming')">
+      <div class="emoji">💻</div>
+      <h3>أساسيات البرمجة</h3>
+      <p>Programming Fundamentals</p>
+    </button>
+    <button class="category" onclick="chooseCategory('python')">
+      <div class="emoji">🐍</div>
+      <h3>تحدي Python</h3>
+      <p>Python Programming</p>
+    </button>
+    <button class="category" onclick="chooseCategory('math')">
+      <div class="emoji">📐</div>
+      <h3>التفاضل</h3>
+      <p>Differentiation</p>
+    </button>
+    <button class="category" onclick="chooseCategory('it')">
+      <div class="emoji">🌐</div>
+      <h3>تكنولوجيا المعلومات</h3>
+      <p>Information Technology</p>
+    </button>
+  </div>
+
+  <div class="panel">
+    <div class="row">
+      <div class="field">
+        <label>مستوى الصعوبة</label>
+        <select id="difficulty">
+          <option value="all">كل المستويات</option>
+          <option value="easy">مبتدئ</option>
+          <option value="medium">متوسط</option>
+          <option value="hard">متقدم</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>عدد الأسئلة</label>
+        <select id="questionCount">
+          <option value="10">10 أسئلة</option>
+          <option value="15">15 سؤالًا</option>
+          <option value="20">20 سؤالًا</option>
+          <option value="all">كل الأسئلة المتاحة</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2 style="color:var(--pink)">🏆 لوحة الشرف | HALL OF FAME</h2>
+    <p class="note">أعلى نتائج المتسابقين المسجلة على هذا الجهاز.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr>
+          <th>المركز</th><th>اسم الطالب</th><th>Student ID</th>
+          <th>القسم</th><th>النتيجة</th>
+        </tr></thead>
+        <tbody id="ranking"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="hidden">
+  <div class="quiztop">
+    <div class="stat" id="categoryName"></div>
+    <div class="stat">⭐ <span id="score">0</span></div>
+    <div class="stat">⏱ <span id="timer">20</span></div>
+  </div>
+  <div class="progress"><div id="progressBar"></div></div>
+  <div class="panel">
+    <div class="note" id="questionNumber"></div>
+    <h2 class="question" id="question"></h2>
+    <div class="options" id="options"></div>
+    <div id="feedback"></div>
+    <button class="primary hidden" id="nextBtn" onclick="nextQuestion()" style="width:100%;margin-top:18px">السؤال التالي</button>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section id="result" class="panel hidden">
+  <div class="result">
+    <div class="trophy" id="trophy">🏆</div>
+    <h2 id="resultTitle"></h2>
+    <div class="result-score"><span id="finalScore">0</span><small style="font-size:17px"> / 100</small></div>
+    <p id="resultMessage"></p>
+    <p id="correctCount"></p>
+    <button class="primary" onclick="goHome()">العودة للرئيسية</button>
+    <button class="secondary" onclick="restartQuiz()">إعادة التحدي</button>
+  </div>
+</section>
+
+<!-- ADMIN -->
+<section id="admin" class="hidden">
+  <div class="hero">
+    <small>ADMINISTRATION PANEL</small>
+    <h1>لوحة <span>الإدارة</span> ⚙️</h1>
+    <p>إدارة بنك الأسئلة وإضافة أسئلة جديدة للمنصة</p>
+  </div>
+
+  <div id="adminLogin" class="panel">
+    <h3 style="color:var(--pink)">دخول المسؤول</h3>
+    <div class="field">
+      <label>رمز الدخول التجريبي</label>
+      <input type="password" id="adminPassword" placeholder="أدخل رمز المسؤول">
+    </div>
+    <button class="primary" style="margin-top:15px" onclick="loginAdmin()">دخول</button>
+    <p class="note">رمز العرض التجريبي: Miron2026</p>
+  </div>
+
+  <div id="adminContent" class="hidden">
+    <div class="panel">
+      <h3 style="color:var(--pink)">📊 إحصائيات بنك الأسئلة</h3>
+      <div class="grid2">
+        <div class="stat">إجمالي الأسئلة: <span id="totalQuestions">0</span></div>
+        <div class="stat">النتائج المحفوظة: <span id="totalResults">0</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 style="color:var(--pink)">➕ إضافة سؤال جديد</h3>
+      <div class="field">
+        <label>القسم</label>
+        <select id="newCategory">
+          <option value="programming">أساسيات البرمجة</option>
+          <option value="python">Python</option>
+          <option value="math">التفاضل</option>
+          <option value="it">تكنولوجيا المعلومات</option>
+        </select>
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label>مستوى الصعوبة</label>
+        <select id="newDifficulty">
+          <option value="easy">مبتدئ</option>
+          <option value="medium">متوسط</option>
+          <option value="hard">متقدم</option>
+        </select>
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label>نص السؤال</label>
+        <textarea id="newQuestion" rows="2" placeholder="اكتب السؤال هنا"></textarea>
+      </div>
+      <div class="grid2" style="margin-top:12px">
+        <div class="field"><label>الاختيار الأول</label><input id="opt0"></div>
+        <div class="field"><label>الاختيار الثاني</label><input id="opt1"></div>
+        <div class="field"><label>الاختيار الثالث</label><input id="opt2"></div>
+        <div class="field"><label>الاختيار الرابع</label><input id="opt3"></div>
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label>رقم الإجابة الصحيحة</label>
+        <select id="correctAnswer">
+          <option value="0">الاختيار الأول</option>
+          <option value="1">الاختيار الثاني</option>
+          <option value="2">الاختيار الثالث</option>
+          <option value="3">الاختيار الرابع</option>
+        </select>
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label>شرح الإجابة</label>
+        <textarea id="explanation" rows="2" placeholder="شرح مختصر للإجابة الصحيحة"></textarea>
+      </div>
+      <button class="primary" onclick="addQuestion()" style="margin-top:16px">حفظ السؤال</button>
+      <p class="note">الأسئلة الجديدة تُحفظ على هذا الجهاز وتضاف إلى بنك الأسئلة المحلي.</p>
+    </div>
+
+    <div class="panel">
+      <h3 style="color:var(--pink)">📝 إدارة الأسئلة المضافة</h3>
+      <div class="field">
+        <label>اختار القسم لعرض الأسئلة</label>
+        <select id="manageCategory" onchange="renderAdminQuestions()">
+          <option value="programming">أساسيات البرمجة</option>
+          <option value="python">Python</option>
+          <option value="math">التفاضل</option>
+          <option value="it">تكنولوجيا المعلومات</option>
+        </select>
+      </div>
+      <div id="adminQuestions"></div>
+    </div>
+    <button class="secondary" onclick="adminLogout()">تسجيل الخروج</button>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="hidden">
+  <div class="hero">
+    <small>ABOUT THE PROJECT</small>
+    <h1>عن <span>المشروع</span></h1>
+    <div class="line"></div>
+  </div>
+  <div class="panel">
+    <h2 style="color:var(--pink)">TECH CHALLENGE</h2>
+    <p style="line-height:2;color:var(--muted)">
+      منصة تعليمية تفاعلية تهدف إلى دعم طلاب تكنولوجيا المعلومات من خلال
+      المسابقات والأسئلة المتخصصة في أساسيات البرمجة وPython والتفاضل
+      وتكنولوجيا المعلومات.
+    </p>
+    <h3 style="color:var(--pink)">أهداف المشروع</h3>
+    <ul style="line-height:2.3;color:var(--muted)">
+      <li>تعزيز التعلم الذاتي والمراجعة المستمرة.</li>
+      <li>قياس مستوى المعرفة في التخصصات المختلفة.</li>
+      <li>تشجيع المنافسة الإيجابية بين الطلاب.</li>
+      <li>توفير تجربة تعليمية تفاعلية سهلة الاستخدام.</li>
+      <li>إتاحة إدارة بنك الأسئلة وتطويره.</li>
+    </ul>
+    <hr style="border-color:#593451">
+    <h3 style="color:var(--pink)">Project Developer</h3>
+    <div class="creator">Miron Amgad Mahrous</div>
+    <p class="note">Information Technology Department</p>
+    <p class="note">Borg El Arab Technological College</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  TECH CHALLENGE © 2026
+  <div style="margin-top:8px">Designed & Developed by</div>
+  <div class="creator">Miron Amgad Mahrous</div>
+  <div style="margin-top:7px">Information Technology | Educational Project</div>
+</footer>
+
+<script>
+const database = {
+programming:[
+{q:"ما المقصود بالمتغير؟",o:["مكان لتخزين البيانات","جهاز إدخال","نظام تشغيل","لغة برمجة"],a:0,d:"easy",e:"المتغير مساحة في الذاكرة لتخزين قيمة."},
+{q:"ما وظيفة IF؟",o:["التكرار","اتخاذ قرار حسب شرط","حذف الملفات","الطباعة"],a:1,d:"easy",e:"IF تنفذ تعليمات عند تحقق شرط."},
+{q:"ما المقصود بالخوارزمية؟",o:["جهاز إلكتروني","خطوات منظمة لحل مشكلة","قاعدة بيانات","نظام تشغيل"],a:1,d:"easy",e:"الخوارزمية خطوات مرتبة لحل مشكلة."},
+{q:"ما وظيفة Loop؟",o:["تكرار التعليمات","إيقاف الجهاز","حذف المتغيرات","تخزين الصور"],a:0,d:"easy",e:"تستخدم لتكرار مجموعة من التعليمات."},
+{q:"ما المقصود بـ Flowchart؟",o:["مخطط انسيابي","لغة برمجة","نوع ذاكرة","محرك بحث"],a:0,d:"easy",e:"تمثيل رسومي لخطوات الخوارزمية."},
+{q:"ما وظيفة Debugging؟",o:["تصميم المواقع","اكتشاف الأخطاء وإصلاحها","ضغط الملفات","تشفير الصور"],a:1,d:"medium",e:"عملية اكتشاف الأخطاء البرمجية وتصحيحها."},
+{q:"ما ناتج 10 % 3؟",o:["3","1","0","3.33"],a:1,d:"medium",e:"باقي القسمة يساوي 1."},
+{q:"ما نوع البيانات الذي يخزن True أو False؟",o:["Integer","Boolean","String","Float"],a:1,d:"easy",e:"Boolean يخزن قيمتين منطقيتين: True وFalse."},
+{q:"ما المقصود بـ Compiler؟",o:["مترجم للبرنامج","قاعدة بيانات","متصفح","نظام ملفات"],a:0,d:"medium",e:"المترجم يحول الكود إلى صيغة قابلة للتنفيذ."},
+{q:"أي رمز يستخدم للإسناد في معظم لغات البرمجة؟",o:["=","==","!=","<="],a:0,d:"easy",e:"علامة = تستخدم لإسناد قيمة إلى متغير."},
+{q:"ما المقصود بـ Syntax Error؟",o:["خطأ في كتابة قواعد اللغة","خطأ في الشاشة","مشكلة إنترنت","خطأ في الطابعة"],a:0,d:"medium",e:"يحدث عند مخالفة قواعد كتابة اللغة."},
+{q:"ما ناتج 4 * 3 + 2؟",o:["20","14","18","10"],a:1,d:"medium",e:"الضرب أولًا: 12 ثم الجمع: 14."},
+{q:"ما المقصود بـ Function؟",o:["مجموعة تعليمات قابلة لإعادة الاستخدام","جهاز تخزين","نوع شاشة","نظام تشغيل"],a:0,d:"easy",e:"الدالة تنظم الكود وتسمح بإعادة استخدامه."},
+{q:"ما وظيفة Return داخل الدالة؟",o:["إرجاع قيمة","حذف الدالة","إيقاف الكمبيوتر","إنشاء ملف"],a:0,d:"medium",e:"Return تعيد قيمة من الدالة إلى مكان استدعائها."},
+{q:"ما المقصود بـ Pseudocode؟",o:["وصف خطوات الحل بلغة شبه برمجية","لغة آلة","قاعدة بيانات","مخطط شبكة"],a:0,d:"hard",e:"شبه الكود يصف منطق الحل دون الالتزام بلغة برمجة محددة."},
+{q:"أي بنية تستخدم لتنفيذ تعليمات حسب تحقق شرط أو عدمه؟",o:["If / Else","Array","Comment","Import"],a:0,d:"easy",e:"If/Else توفر مسارين حسب نتيجة الشرط."},
+{q:"ما المقصود بـ Array؟",o:["مجموعة عناصر تحت اسم واحد","محرر نصوص","معالج","نظام ملفات"],a:0,d:"medium",e:"المصفوفة تجمع عدة عناصر في بنية واحدة."},
+{q:"ما المقصود بـ Recursion؟",o:["استدعاء الدالة لنفسها","تكرار يدوي فقط","حذف متغير","طباعة نص"],a:0,d:"hard",e:"الاستدعاء الذاتي يحدث عندما تستدعي الدالة نفسها."},
+{q:"أي تعبير منطقي يمثل AND؟",o:["يكفي تحقق شرط واحد","يجب تحقق الشرطين","عكس الشرط","مقارنة نصوص"],a:1,d:"medium",e:"AND تكون صحيحة إذا كان الشرطان صحيحين."},
+{q:"ما وظيفة IDE؟",o:["بيئة تطوير متكاملة","نوع معالج","لغة ترميز","خادم ويب"],a:0,d:"hard",e:"IDE تجمع محرر الكود وأدوات التشغيل والتصحيح."}
+],
+python:[
+{q:"ما امتداد ملفات Python؟",o:[".html",".py",".css",".java"],a:1,d:"easy",e:"امتداد ملفات Python هو .py."},
+{q:"ما الأمر المستخدم للطباعة؟",o:["input()","print()","output()","show()"],a:1,d:"easy",e:"print() تعرض البيانات."},
+{q:"ما ناتج print(5+3)؟",o:["53","8","2","Error"],a:1,d:"easy",e:"الناتج 8."},
+{q:"ما رمز التعليق في Python؟",o:["//","#","<!--","**"],a:1,d:"easy",e:"# يستخدم للتعليقات."},
+{q:"ما ناتج 10 // 3؟",o:["3.33","3","1","4"],a:1,d:"medium",e:"القسمة الصحيحة تعطي 3."},
+{q:"أي نوع بيانات قابل للتعديل ويخزن عدة عناصر؟",o:["int","float","list","bool"],a:2,d:"easy",e:"List قائمة قابلة للتعديل."},
+{q:"ما ناتج len('Python')؟",o:["5","6","7","4"],a:1,d:"easy",e:"الكلمة تحتوي على ستة أحرف."},
+{q:"ما ناتج 2 ** 3؟",o:["6","8","9","5"],a:1,d:"easy",e:"** تعني الأس."},
+{q:"ما الكلمة المستخدمة لتعريف دالة؟",o:["function","define","def","func"],a:2,d:"easy",e:"نستخدم def لتعريف الدوال."},
+{q:"ما ناتج bool(0)؟",o:["True","False","0","Error"],a:1,d:"medium",e:"الصفر يتحول إلى False."},
+{q:"ما ناتج 7 % 2؟",o:["3","1","2","0"],a:1,d:"easy",e:"باقي قسمة 7 على 2 هو 1."},
+{q:"ما نوع البيانات للقيمة 3.14؟",o:["int","float","str","bool"],a:1,d:"easy",e:"float يمثل الأعداد العشرية."},
+{q:"أي دالة تستقبل مدخلات من المستخدم؟",o:["print()","input()","len()","type()"],a:1,d:"easy",e:"input() تستقبل إدخال المستخدم."},
+{q:"ما ناتج 'Hi' * 3؟",o:["Hi3","HiHiHi","Error","Hi"],a:1,d:"medium",e:"تكرار النص ثلاث مرات ينتج HiHiHi."},
+{q:"ما ناتج list(range(3))؟",o:["[1,2,3]","[0,1,2]","[0,1,2,3]","[3]"],a:1,d:"medium",e:"range(3) يبدأ من صفر ويتوقف قبل 3."},
+{q:"ما وظيفة break؟",o:["إنهاء الحلقة","تخطي دورة واحدة","تعريف دالة","طباعة نص"],a:0,d:"medium",e:"break تنهي الحلقة الحالية."},
+{q:"ما وظيفة continue؟",o:["إنهاء البرنامج","تخطي الدورة الحالية","تعريف متغير","إرجاع قيمة"],a:1,d:"medium",e:"continue تنتقل إلى الدورة التالية."},
+{q:"ما ناتج 3 == 3؟",o:["True","False","3","Error"],a:0,d:"easy",e:"القيمتان متساويتان."},
+{q:"ما ناتج [1,2,3][0]؟",o:["1","2","3","0"],a:0,d:"medium",e:"الفهرسة تبدأ من الصفر."},
+{q:"ما وظيفة append() في القائمة؟",o:["إضافة عنصر للنهاية","حذف القائمة","ترتيب عكسي","حساب الطول"],a:0,d:"medium",e:"append تضيف عنصرًا إلى نهاية القائمة."},
+{q:"ما ناتج 2 + 3 * 4؟",o:["20","14","24","11"],a:1,d:"medium",e:"الضرب قبل الجمع: 12 + 2 = 14."},
+{q:"ما وظيفة type()؟",o:["معرفة نوع البيانات","طباعة البيانات","حذف عنصر","إيقاف الحلقة"],a:0,d:"medium",e:"type() تعيد نوع الكائن."},
+{q:"ما ناتج '5' + '2'؟",o:["7","52","Error","25"],a:1,d:"medium",e:"جمع النصوص يؤدي إلى دمجها."},
+{q:"أي كلمة تستخدم لمعالجة الاستثناءات؟",o:["try","loop","repeat","check"],a:0,d:"hard",e:"try تبدأ كتلة معالجة الاستثناءات."},
+{q:"ما ناتج 9 // 2؟",o:["4","4.5","5","1"],a:0,d:"medium",e:"القسمة الصحيحة تعطي 4."}
+],
+math:[
+{q:"ما مشتقة x²؟",o:["x","2x","x³","2"],a:1,d:"easy",e:"قاعدة القوى: n x^(n-1)."},
+{q:"ما مشتقة الثابت 7؟",o:["7","1","0","-7"],a:2,d:"easy",e:"مشتقة الثابت تساوي صفر."},
+{q:"ما مشتقة 3x؟",o:["3","x","3x²","0"],a:0,d:"easy",e:"مشتقة ax هي a."},
+{q:"ما مشتقة 5x²؟",o:["5x","10x","10x²","2x"],a:1,d:"easy",e:"المشتقة 10x."},
+{q:"ما مشتقة √x؟",o:["√x","1/(2√x)","2√x","1/x"],a:1,d:"medium",e:"نحول الجذر إلى x^(1/2) ونطبق قاعدة القوى."},
+{q:"ما مشتقة 1/x؟",o:["1/x²","-1/x²","x²","-x"],a:1,d:"medium",e:"نكتب x^-1، ومشتقته -x^-2."},
+{q:"ما مشتقة x² + 3x؟",o:["2x+3","x+3","2x+2","3x"],a:0,d:"easy",e:"نشتق كل حد بصورة منفصلة."},
+{q:"ما مشتقة حاصل ضرب u وv؟",o:["u'+v'","u'v+uv'","u'v'","uv"],a:1,d:"hard",e:"قاعدة الضرب: مشتقة الأولى في الثانية زائد الأولى في مشتقة الثانية."},
+{q:"ما مشتقة u/v؟",o:["(u'v-uv')/v²","(u'v+uv')/v²","u'/v'","uv"],a:0,d:"hard",e:"قاعدة القسمة: البسط مشتقة الأولى في الثانية ناقص الأولى في مشتقة الثانية، على مربع الثانية."},
+{q:"ما مشتقة (3x+1)²؟",o:["2(3x+1)","6(3x+1)","3(3x+1)","6x+1"],a:1,d:"hard",e:"قاعدة السلسلة: 2(3x+1) × 3."},
+{q:"ما مشتقة sin(x)؟",o:["cos(x)","-cos(x)","sin(x)","-sin(x)"],a:0,d:"medium",e:"مشتقة sin(x) هي cos(x)."},
+{q:"ما مشتقة cos(x)؟",o:["sin(x)","-sin(x)","cos(x)","-cos(x)"],a:1,d:"medium",e:"مشتقة cos(x) هي -sin(x)."},
+{q:"ما مشتقة tan(x)؟",o:["sec²(x)","cos(x)","sin(x)","-sec²(x)"],a:0,d:"hard",e:"مشتقة tan(x) هي sec²(x)."},
+{q:"ما مشتقة e^x؟",o:["xe^x","e^x","ln(x)","1/x"],a:1,d:"medium",e:"مشتقة e^x هي e^x."},
+{q:"ما مشتقة ln(x)؟",o:["x","ln(x)","1/x","e^x"],a:2,d:"hard",e:"مشتقة ln(x) هي 1/x عندما x>0."},
+{q:"ما مشتقة (x²+1)³؟",o:["3(x²+1)²","6x(x²+1)²","3x²","6x"],a:1,d:"hard",e:"نطبق قاعدة السلسلة."},
+{q:"ما مشتقة √(x²+1)؟",o:["1/√(x²+1)","x/√(x²+1)","2x","√(2x)"],a:1,d:"hard",e:"باستخدام قاعدة السلسلة نحصل على x/√(x²+1)."},
+{q:"ما مشتقة x³ - 4x² + 2؟",o:["3x²-8x","3x²-4x","x²-8x","3x-8"],a:0,d:"medium",e:"المشتقة 3x²-8x."},
+{q:"ما مشتقة 1/x²؟",o:["2/x³","-2/x³","-1/x²","1/x"],a:1,d:"hard",e:"نحولها إلى x^-2 ونشتق."},
+{q:"ما مشتقة sin(3x)؟",o:["cos(3x)","3cos(3x)","-3sin(3x)","3sin(3x)"],a:1,d:"hard",e:"باستخدام قاعدة السلسلة."},
+{q:"ما مشتقة 4x⁴؟",o:["4x³","16x³","16x⁴","x³"],a:1,d:"medium",e:"4 × 4x³ = 16x³."},
+{q:"ما مشتقة 7x⁵؟",o:["35x⁴","7x⁴","35x⁵","5x⁴"],a:0,d:"medium",e:"نضرب المعامل في الأس."},
+{q:"ما مشتقة sec(x)؟",o:["sec(x)tan(x)","sec²(x)","tan(x)","-sec(x)"],a:0,d:"hard",e:"مشتقة sec(x) هي sec(x)tan(x)."},
+{q:"ما مشتقة cot(x)؟",o:["csc²(x)","-csc²(x)","sec²(x)","-sec(x)"],a:1,d:"hard",e:"مشتقة cot(x) هي -csc²(x)."},
+{q:"ما مشتقة log₁₀(x)؟",o:["1/x","1/(x ln 10)","ln(10)/x","10^x"],a:1,d:"hard",e:"مشتقة اللوغاريتم للأساس 10 هي 1/(x ln 10)."},
+{q:"ما مشتقة 2^x؟",o:["2^x","2^x ln(2)","x2^(x-1)","ln(x)"],a:1,d:"hard",e:"مشتقة a^x تساوي a^x ln(a)."},
+{q:"إذا كانت f(x)=x²، فما قيمة f'(3)؟",o:["3","6","9","12"],a:1,d:"medium",e:"f'(x)=2x، وعند x=3 تكون 6."},
+{q:"ما مشتقة (x+2)(x+3)؟",o:["2x+5","x+5","2x+6","x²+5"],a:0,d:"hard",e:"نوسع الدالة إلى x²+5x+6 ثم نشتق."},
+{q:"ما مشتقة 5√x؟",o:["5/(2√x)","2√x","5√x","1/(5√x)"],a:0,d:"medium",e:"5 مضروبة في مشتقة الجذر."},
+{q:"ما مشتقة (2x-1)^4؟",o:["4(2x-1)^3","8(2x-1)^3","8(2x-1)^4","2(2x-1)^3"],a:1,d:"hard",e:"4(2x-1)^3 × 2."}
+],
+it:[
+{q:"ماذا تعني CPU؟",o:["Central Processing Unit","Computer Power Unit","Central Program Utility","Control Processing User"],a:0,d:"easy",e:"وحدة المعالجة المركزية."},
+{q:"أي مما يلي نظام تشغيل؟",o:["Chrome","Windows","Python","HTML"],a:1,d:"easy",e:"Windows نظام تشغيل."},
+{q:"ما وظيفة RAM؟",o:["تخزين دائم","ذاكرة مؤقتة أثناء التشغيل","عرض الصور","الاتصال بالإنترنت"],a:1,d:"easy",e:"RAM ذاكرة مؤقتة."},
+{q:"ماذا يعني AI؟",o:["Internet Access","Artificial Intelligence","Automatic Input","Advanced Internet"],a:1,d:"easy",e:"الذكاء الاصطناعي."},
+{q:"أي جهاز يوجه البيانات بين الشبكات؟",o:["Router","Monitor","Keyboard","Printer"],a:0,d:"medium",e:"Router يوجه حزم البيانات."},
+{q:"ما البروتوكول الآمن لتصفح المواقع؟",o:["FTP","HTTP","HTTPS","SMTP"],a:2,d:"easy",e:"HTTPS يوفر اتصالًا مشفرًا."},
+{q:"كم Bit في Byte؟",o:["4","8","16","32"],a:1,d:"easy",e:"البايت يحتوي على 8 بت."},
+{q:"ما وظيفة قاعدة البيانات؟",o:["تنظيم وتخزين البيانات","تشغيل الشاشة","زيادة الإنترنت دائمًا","تصميم الصور"],a:0,d:"easy",e:"تنظم البيانات وتتيح استرجاعها."},
+{q:"ما المقصود بـ Cybersecurity؟",o:["الأمن السيبراني","تصميم الجرافيك","معالجة الصور","إدارة الطابعات"],a:0,d:"easy",e:"حماية الأنظمة والشبكات والبيانات."},
+{q:"أي مثال يمثل عنوان IPv4؟",o:["192.168.1.1","www","HTML","CPU"],a:0,d:"medium",e:"IPv4 يتكون من أربعة أجزاء رقمية."},
+{q:"ما وظيفة DNS؟",o:["تحويل أسماء النطاقات إلى IP","تخزين الصور","تشغيل المعالج","ضغط الملفات"],a:0,d:"medium",e:"DNS يترجم أسماء النطاقات إلى عناوين IP."},
+{q:"أي لغة تصف هيكل صفحات الويب؟",o:["HTML","Python","SQL","C++"],a:0,d:"easy",e:"HTML تبني هيكل صفحات الويب."},
+{q:"ما وظيفة SSD؟",o:["التخزين","المعالجة","الإدخال","العرض"],a:0,d:"easy",e:"SSD وحدة تخزين سريعة."},
+{q:"ما المقصود بـ LAN؟",o:["شبكة محلية","شبكة عالمية","لغة برمجة","نظام تشغيل"],a:0,d:"medium",e:"LAN تعني Local Area Network."},
+{q:"ما وظيفة Firewall؟",o:["التحكم في حركة الشبكة وحمايتها","زيادة سطوع الشاشة","ضغط الملفات","تشغيل الصوت"],a:0,d:"medium",e:"الجدار الناري يراقب حركة الشبكة وفق قواعد أمنية."},
+{q:"أي طبقة مسؤولة عن التوجيه في نموذج OSI؟",o:["Network","Physical","Session","Presentation"],a:0,d:"hard",e:"طبقة Network مسؤولة عن التوجيه المنطقي."},
+{q:"ما معنى URL؟",o:["Uniform Resource Locator","Universal Router Link","User Resource Language","Unified Record List"],a:0,d:"medium",e:"URL هو عنوان المورد على الويب."},
+{q:"أي مما يلي يعتبر بروتوكول نقل ملفات؟",o:["FTP","HTML","CSS","RAM"],a:0,d:"medium",e:"FTP اختصار File Transfer Protocol."},
+{q:"ما وظيفة نظام إدارة قواعد البيانات DBMS؟",o:["إدارة قواعد البيانات","تصميم المعالجات","تشغيل الشبكة فقط","عرض الصور"],a:0,d:"hard",e:"يساعد في إنشاء قواعد البيانات وإدارتها والاستعلام عنها."},
+{q:"ما المقصود بـ Open Source؟",o:["شفرة مصدرية متاحة وفق ترخيص مفتوح","برنامج مغلق دائمًا","نظام تشغيل فقط","ملف صوتي"],a:0,d:"medium",e:"البرمجيات مفتوحة المصدر تسمح بالاطلاع والتعديل وفق شروط الترخيص."}
+]
+};
+
+const labels={
+programming:"أساسيات البرمجة",
+python:"Python",
+math:"التفاضل",
+it:"تكنولوجيا المعلومات"
+};
+
+const STORE="techChallengeV3";
+const CUSTOM="techChallengeCustomV3";
+
+let currentCategory="",questions=[],index=0,score=0,correct=0;
+let seconds=20,timerInterval=null,answered=false,lastCategory="";
+let student={name:"",id:""};
+
+function getResults(){
+ try{return JSON.parse(localStorage.getItem(STORE)||"[]")}catch{return []}
+}
+function getCustom(){
+ try{return JSON.parse(localStorage.getItem(CUSTOM)||"[]")}catch{return []}
+}
+function saveCustom(list){localStorage.setItem(CUSTOM,JSON.stringify(list))}
+function allQuestions(cat){return [...database[cat],...getCustom().filter(q=>q.cat===cat)]}
+
+function hideAll(){
+ ["home","quiz","result","admin","about"].forEach(id=>
+ document.getElementById(id).classList.add("hidden"));
+}
+function goHome(){
+ clearInterval(timerInterval);hideAll();
+ document.getElementById("home").classList.remove("hidden");
+ renderRanking();
+}
+function showAbout(){hideAll();document.getElementById("about").classList.remove("hidden")}
+function showAdmin(){
+ hideAll();document.getElementById("admin").classList.remove("hidden");
+ document.getElementById("adminLogin").classList.remove("hidden");
+ document.getElementById("adminContent").classList.add("hidden");
+ document.getElementById("adminPassword").value="";
+}
+function loginAdmin(){
+ if(document.getElementById("adminPassword").value!=="Miron2026"){
+ alert("رمز الدخول غير صحيح");return;
+ }
+ document.getElementById("adminLogin").classList.add("hidden");
+ document.getElementById("adminContent").classList.remove("hidden");
+ renderAdmin();
+}
+function adminLogout(){showAdmin()}
+
+function chooseCategory(cat){
+ const name=document.getElementById("playerName").value.trim();
+ const id=document.getElementById("studentID").value.trim();
+ if(!name||!id){alert("من فضلك أدخل اسمك والرقم الجامعي أولًا.");return}
+ if(!/^[a-zA-Z0-9-]+$/.test(id)){alert("استخدم حروفًا إنجليزية أو أرقامًا في Student ID.");return}
+ student={name,id};
+ currentCategory=cat;
+ const level=document.getElementById("difficulty").value;
+ questions=allQuestions(cat).filter(q=>level==="all"||q.d===level);
+ if(!questions.length){alert("لا توجد أسئلة بهذا المستوى.");return}
+ questions.sort(()=>Math.random()-.5);
+ const count=document.getElementById("questionCount").value;
+ if(count!=="all")questions=questions.slice(0,Number(count));
+ index=0;score=0;correct=0;lastCategory=cat;
+ hideAll();document.getElementById("quiz").classList.remove("hidden");
+ document.getElementById("categoryName").textContent=labels[cat];
+ document.getElementById("score").textContent="0";
+ showQuestion();
+}
+
+function showQuestion(){
+ clearInterval(timerInterval);answered=false;seconds=20;
+ const q=questions[index];
+ document.getElementById("questionNumber").textContent=
+ `السؤال ${index+1} من ${questions.length}`;
+ document.getElementById("question").textContent=q.q;
+ document.getElementById("progressBar").style.width=(index/questions.length*100)+"%";
+ document.getElementById("timer").textContent=seconds;
+ document.getElementById("feedback").style.display="none";
+ document.getElementById("nextBtn").classList.add("hidden");
+ const box=document.getElementById("options");box.innerHTML="";
+ q.o.forEach((v,i)=>{
+  const b=document.createElement("button");
+  b.className="option";b.textContent=(i+1)+". "+v;
+  b.onclick=()=>selectAnswer(i);box.appendChild(b);
+ });
+ timerInterval=setInterval(()=>{
+  seconds--;document.getElementById("timer").textContent=seconds;
+  if(seconds<=0)selectAnswer(-1);
+ },1000);
+}
+
+function selectAnswer(choice){
+ if(answered)return;
+ answered=true;clearInterval(timerInterval);
+ const q=questions[index];
+ document.querySelectorAll(".option").forEach((b,i)=>{
+  b.disabled=true;
+  if(i===q.a)b.classList.add("correct");
+  else if(i===choice)b.classList.add("wrong");
+ });
+ const f=document.getElementById("feedback");
+ if(choice===q.a){
+  score+=10;correct++;
+  document.getElementById("score").textContent=score;
+  f.textContent="✅ إجابة صحيحة! "+q.e;
+ }else{
+  f.textContent="❌ الإجابة الصحيحة: "+q.o[q.a]+" | "+q.e;
+ }
+ f.style.display="block";
+ document.getElementById("nextBtn").textContent=
+ index===questions.length-1?"عرض النتيجة 🏆":"السؤال التالي ←";
+ document.getElementById("nextBtn").classList.remove("hidden");
+}
+function nextQuestion(){
+ index++;
+ if(index<questions.length)showQuestion();else showResult();
+}
+function showResult(){
+ clearInterval(timerInterval);
+ hideAll();document.getElementById("result").classList.remove("hidden");
+ const pct=Math.round(correct/questions.length*100);
+ document.getElementById("finalScore").textContent=pct;
+ document.getElementById("correctCount").textContent=
+ `الإجابات الصحيحة: ${correct} من ${questions.length}`;
+ let title,msg,trophy;
+ if(pct>=90){title="مستوى استثنائي!";msg="أداء رائع! استمر في التميز.";trophy="🏆"}
+ else if(pct>=70){title="أحسنت!";msg="نتيجة ممتازة، واصل التعلم.";trophy="🥇"}
+ else if(pct>=50){title="أداء جيد!";msg="أنت على الطريق الصحيح.";trophy="🥈"}
+ else{title="لا تستسلم!";msg="كل تحدٍ فرصة جديدة للتعلم.";trophy="📚"}
+ document.getElementById("resultTitle").textContent=title;
+ document.getElementById("resultMessage").textContent=msg;
+ document.getElementById("trophy").textContent=trophy;
+ const results=getResults();
+ results.push({
+ name:student.name,id:student.id,category:labels[currentCategory],
+ score:pct,correct,total:questions.length,date:new Date().toISOString()
+ });
+ results.sort((a,b)=>b.score-a.score||b.correct-a.correct);
+ localStorage.setItem(STORE,JSON.stringify(results.slice(0,100)));
+ renderRanking();
+}
+function restartQuiz(){chooseCategory(lastCategory)}
+
+function renderRanking(){
+ const board=getResults();
+ const tbody=document.getElementById("ranking");tbody.innerHTML="";
+ if(!board.length){
+  tbody.innerHTML='<tr><td colspan="5">لا توجد نتائج حتى الآن. كن أول أبطال التحدي!</td></tr>';return;
+ }
+ board.slice(0,10).forEach((r,i)=>{
+  const tr=document.createElement("tr");
+  const vals=[i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1,r.name,r.id,r.category,r.score+"%"];
+  vals.forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.appendChild(td)});
+  tbody.appendChild(tr);
+ });
+}
+
+function renderAdmin(){
+ const custom=getCustom();
+ let total=Object.keys(database).reduce((n,k)=>n+database[k].length,0)+custom.length;
+ document.getElementById("totalQuestions").textContent=total;
+ document.getElementById("totalResults").textContent=getResults().length;
+ renderAdminQuestions();
+}
+function addQuestion(){
+ const cat=document.getElementById("newCategory").value;
+ const q=document.getElementById("newQuestion").value.trim();
+ const opts=[0,1,2,3].map(i=>document.getElementById("opt"+i).value.trim());
+ const exp=document.getElementById("explanation").value.trim();
+ if(!q||opts.some(x=>!x)||!exp){alert("أكمل السؤال والاختيارات والشرح.");return}
+ const custom=getCustom();
+ custom.push({
+ cat,q,o:opts,a:Number(document.getElementById("correctAnswer").value),
+ d:document.getElementById("newDifficulty").value,e:exp
+ });
+ saveCustom(custom);
+ ["newQuestion","opt0","opt1","opt2","opt3","explanation"].forEach(id=>document.getElementById(id).value="");
+ alert("تم حفظ السؤال بنجاح 💗");
+ renderAdmin();
+}
+function renderAdminQuestions(){
+ const cat=document.getElementById("manageCategory").value;
+ const custom=getCustom();
+ const list=document.getElementById("adminQuestions");list.innerHTML="";
+ const selected=custom.map((q,i)=>({...q,index:i})).filter(q=>q.cat===cat);
+ if(!selected.length){list.innerHTML='<p class="note">لا توجد أسئلة مضافة يدويًا في هذا القسم.</p>';return}
+ selected.forEach(q=>{
+  const div=document.createElement("div");div.className="admin-card";
+  const title=document.createElement("b");title.textContent=q.q;
+  const meta=document.createElement("p");meta.className="note";
+  meta.textContent="المستوى: "+q.d+" | الإجابة: "+q.o[q.a];
+  const del=document.createElement("button");del.className="secondary";
+  del.textContent="حذف السؤال";
+  del.onclick=()=>{
+   if(confirm("هل تريد حذف هذا السؤال؟")){
+    const arr=getCustom();arr.splice(q.index,1);saveCustom(arr);renderAdmin();
+   }
+  };
+  div.append(title,meta,del);list.appendChild(div);
+ });
+}
+renderRanking();
+</script>
+</body>
+</html>
